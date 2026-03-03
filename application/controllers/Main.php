@@ -36,6 +36,7 @@ class Main extends CI_Controller
 				$bank_details = $_POST['bank_details'];
 				$this->load->model('users');
 				$this->users->insertUser($login, $password, $fio, $phone, $email, $address, $bank_details);
+				redirect('main/login');
 			}
 			$this->load->view('reg');
 			$this->load->view('temp/footer');
