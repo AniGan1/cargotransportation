@@ -23,20 +23,23 @@ class Main extends CI_Controller
 	}
 	public function reg()
 	{
-		if (!empty($_POST)) {
-			$this->load->model('users');
-			$user = $this->users->insertUser($_POST);
-			$user = $this->users->selectUser($_POST);
-			if ($user) {
-				$this->session->set_userdata($user);
-				redirect('main/index');
-			}
-		} else {
+	
 			$this->load->view('temp/head');
 			$this->load->view('temp/navbar');
+			if(!empty($_POST)){
+				$login = $_POST['login'];
+				$password = $_POST['password'];
+				$fio = $_POST['fio'];
+				$phone = $_POST['phone'];
+				$email = $_POST['email'];
+				$address = $_POST['address'];
+				$bank_details = $_POST['bank_details'];
+				$this->load->model('users');
+				$this->users->insertUser($login, $password, $fio, $phone, $email, $address, $bank_details);
+			}
 			$this->load->view('reg');
 			$this->load->view('temp/footer');
-		}
+	
 	}
 	public function login()
 	{

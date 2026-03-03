@@ -11,10 +11,12 @@
                 <label for="">Пароль:</label>
                 <input type="password" name="password" class="form-control">
             </div>
+            <p>Нет аккаунта?<a href="main/reg">Зарегистрируйтесь!</a></p>
+
             <button class="btn btn-primary mb-3" style="width: 100%;">Войти</button>
-            <?php 
-            if(!empty($this->session->userdata['error_auth'])){
-                echo '<p class="text-center" style="color:red;">'.$this->session->userdata['error_auth']. '</p>';
+            <?php
+            if (!empty($this->session->userdata['error_auth'])) {
+                echo '<p class="text-center" style="color:red;">' . $this->session->userdata['error_auth'] . '</p>';
             } ?>
         </form>
     </div>
