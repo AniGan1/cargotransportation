@@ -57,6 +57,13 @@ class Buchgalter extends CI_Controller
         $this->load->model('drivers');
         $data['drivers'] = $this->drivers->selects();
         $data['apps'] = $this->drivers->selectsBuch();
+
+        if (!empty($_POST)) {
+            $id_driver = $_POST['id_driver'];
+            $data['apps'] = $this->drivers->selectsBuchFilter($id_driver);
+            if ($id_driver == 0) $data['apps'] = $this->drivers->selectsBuch();
+        }
+
         if (!empty($id_role) &&  $id_role == 3) {
             $this->load->view('buchgalter/navbar');
         } else {
@@ -77,7 +84,7 @@ class Buchgalter extends CI_Controller
         }
         $this->load->view('temp/head');
 
-        $this->load->view('buchgalter/drivers');
+        $this->load->view('buchgalter/traffic');
         $this->load->view('temp/footer');
     }
 

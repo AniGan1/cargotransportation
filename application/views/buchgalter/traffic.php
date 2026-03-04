@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10">
-            <h2>Водители</h2>
-            <form action="" method="post" style="width: 400px;" class="ms-auto me-auto">
+            <h2>Перевозки</h2>
+            <!-- <form action="" method="post" style="width: 400px;" class="ms-auto me-auto">
                 <h3>Сведения об объемах перевозках за водителя : </h3>
                 <div class="mb-2">
                     <label for="">ФИО водителя:</label>
@@ -15,7 +15,7 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Поиск</button>
-            </form>
+            </form> -->
             <h3>Полная статистика по перевозкам водителями</h3>
             <table class="table">
                 <thead>
@@ -39,7 +39,6 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-
         </div>
         <div class="col-1"></div>
     </div>
