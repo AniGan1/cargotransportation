@@ -8,7 +8,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto ms-5 mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#main">Главная</a>
+                            <a class="nav-link" href="dispatcher/not_applications">Не выполнены заявки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="dispatcher/applications">Выполнены заявки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="dispatcher/put_list">Составление путевой лист</a>
+                        </li><li class="nav-item">
+                            <a class="nav-link" href="dispatcher/slisok">Список водителя и автомобиля</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav mы-auto mb-2 mb-lg-0">
