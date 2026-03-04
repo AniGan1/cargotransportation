@@ -1,23 +1,66 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
-date_default_timezone_set('UTC');
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Applications extends CI_Model
 {
+    public function generate_number()
+    {
+        $year = date('Y');
+        $this->db->like('number_application', "APP-$year-", 'after');
+        $this->db->order_by('number_application', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('applications');
+        
+        if ($query->num_rows() > 0) {
+            $row = $query->row_array();
+            $last_num = substr($row['number_application'], -3);
+            $new_num = intval($last_num) + 1;
+            $num = str_pad($new_num, 3, '0', STR_PAD_LEFT);
+        } else {
+            $num = '001';
+        }
+        
+        return "APP-$year-$num";
+    }
+
     public function insertApp($data)
     {
-        $sql1 = "INSERT INTO `applications`( `number_application`, `title_cargo`, `type_cargo`, `total_weight`, `departure_point`, `destination_point`, `id_client`, `total_cost`, `distance`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $result = $this->db->query($sql2, array($data['number_application'], $$data['title_cargo'], $$data['type_cargo'], $data['departure_point'], $data['destination_point'], $data['id_client'], $data['total_cost'], $data['distance']));
-        return $result;
+        $data['number_application'] = $this->generate_number();
+        $this->db->insert('applications', $data);
+        return $this->db->insert_id();
     }
-    // Заявки клиента
-    public function client_application(){
-        $sql = "SELECT applications.number_application, applications.title_cargo, type_cargo.title_type_cargo, applications.total_weight, clients.address, applications.total_cost, contracts.status 
-FROM applications, clients, contracts, type_cargo 
-WHERE applications.id_client = clients.id_client 
-AND applications.type_cargo = type_cargo.type_cargo 
-AND applications.id_application = contracts.id_application 
-AND clients.id_client = 1";
-$result = $this->db->query($sql);
-return $result->result_array();
+
+    public function client_application()
+    {
+        $sql = "SELECT 
+                applications.number_application, 
+                applications.title_cargo, 
+                type_cargo.title_type_cargo, 
+                applications.total_weight,
+                applications.departure_point, 
+                applications.destination_point,
+                applications.total_cost,
+                applications.status
+                FROM applications, type_cargo
+                WHERE applications.type_cargo = type_cargo.type_cargo
+                AND applications.id_client = 1
+                ORDER BY applications.number_application DESC";
+        
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function calculate_cost($weight, $distance, $type_cargo)
+    {
+        $base_rate = 50;
+        $type_coef = 1;
+        
+        if($type_cargo == 1) $type_coef = 1.2;
+        else if($type_cargo == 2) $type_coef = 1;
+        else if($type_cargo == 3) $type_coef = 1.5;
+        else if($type_cargo == 4) $type_coef = 1.1;
+        else if($type_cargo == 5) $type_coef = 1.3;
+        
+        return $weight * $distance * $base_rate * $type_coef;
     }
 }

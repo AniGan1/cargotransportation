@@ -40,7 +40,6 @@ class Main extends CI_Controller
 			}
 			$this->load->view('reg');
 			$this->load->view('temp/footer');
-	
 	}
 	public function login()
 	{
