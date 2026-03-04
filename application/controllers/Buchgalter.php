@@ -81,6 +81,8 @@ class Buchgalter extends CI_Controller
         $this->load->view('temp/footer');
     }
 
+
+    // ЗАРПЛАТА
     public function salary()
     {
         $id_role = $this->session->userdata('id_role');
