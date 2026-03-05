@@ -97,17 +97,53 @@ class Buchgalter extends CI_Controller
     }
 
     // ЗАРПЛАТА
-    public function salary()
+     public function salary()
     {
         $id_role = $this->session->userdata('id_role');
-        if (!empty($id_role) &&  $id_role == 3) {
+        
+        if (!empty($id_role) && $id_role == 3) {
             $this->load->view('buchgalter/navbar');
         } else {
             redirect('main/index');
         }
+        
+        $this->load->model('drivers');
+        
+        $data['drivers'] = $this->drivers->get_drivers_stats();
+        
         $this->load->view('temp/head');
-
-        $this->load->view('buchgalter/salary');
+        $this->load->view('buchgalter/salary', $data);
         $this->load->view('temp/footer');
+    }
+    
+    public function edit_salary($driver_id)
+    {
+        $id_role = $this->session->userdata('id_role');
+        
+        if (!empty($id_role) && $id_role == 3) {
+            $this->load->view('buchgalter/navbar');
+        } else {
+            redirect('main/index');
+        }
+        
+        $this->load->model('drivers');
+        
+        $data['driver'] = $this->drivers->get_driver($driver_id);
+        
+        $this->load->view('temp/head');
+        $this->load->view('buchgalter/edit_salary', $data);
+        $this->load->view('temp/footer');
+    }
+    
+    public function update_salary()
+    {
+        $this->load->model('drivers');
+        
+        $driver_id = $this->input->post('driver_id');
+        $new_salary = $this->input->post('salary');
+        
+        $this->drivers->update_salary($driver_id, $new_salary);
+        
+        redirect('buchgalter/salary');
     }
 }

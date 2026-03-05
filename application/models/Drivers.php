@@ -73,4 +73,47 @@ GROUP BY drivers.fio;";
         $result = $this->db->query($sql1, array($id_driver));
         return $result->result_array();
     }
+     // Получить всех водителей с их статистикой
+    public function get_drivers_stats()
+    {
+        $this->load->database();
+        
+        $sql = "SELECT 
+                    drivers.id_driver,
+                    drivers.fio,
+                    drivers.phone,
+                    drivers.status,
+                    drivers.salary,
+                    SUM(CASE WHEN travel_list.status_list = 'Завершен' THEN applications.distance ELSE 0 END) as total_distance,
+                    SUM(CASE WHEN travel_list.status_list = 'Завершен' THEN travel_list.transported ELSE 0 END) as total_weight,
+                    COUNT(CASE WHEN travel_list.status_list = 'Завершен' THEN 1 ELSE NULL END) as trips_count,
+                    SUM(CASE WHEN travel_list.status_list = 'Завершен' THEN (travel_list.transported * drivers.salary) ELSE 0 END) as total_salary
+                FROM drivers
+                LEFT JOIN travel_list ON drivers.id_driver = travel_list.id_driver
+                LEFT JOIN applications ON travel_list.id_application = applications.id_application
+                GROUP BY drivers.id_driver
+                ORDER BY drivers.fio";
+        
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
+    // Получить данные одного водителя
+    public function get_driver($driver_id)
+    {
+        $this->load->database();
+        
+        $sql = "SELECT * FROM drivers WHERE id_driver = ?";
+        $query = $this->db->query($sql, array($driver_id));
+        return $query->row();
+    }
+    
+    // Обновить зарплату водителя
+    public function update_salary($driver_id, $new_salary)
+    {
+        $this->load->database();
+        
+        $sql = "UPDATE drivers SET salary = ? WHERE id_driver = ?";
+        return $this->db->query($sql, array($new_salary, $driver_id));
+    }
 }
