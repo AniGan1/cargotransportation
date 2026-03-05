@@ -8,11 +8,11 @@ class Main extends CI_Controller
 	{
 		$id_role = $this->session->userdata('id_role');
 		if (!empty($id_role) &&  $id_role == 1) {
-			$this->load->view('temp/navbar_student');
+			$this->load->view('client/navbar');
 		}elseif(!empty($id_role) &&  $id_role == 2){
-			$this->load->view('temp/navbar_teacher');
+			$this->load->view('dispatcher/navbar');
 		}elseif(!empty($id_role) &&  $id_role == 3){
-			$this->load->view('temp/navbar_admin');
+			$this->load->view('buchgalter/navbar');
 		}else{
 			$this->load->view('temp/navbar');
 		}
@@ -49,10 +49,12 @@ class Main extends CI_Controller
 			if ($user) {
 				$this->session->set_userdata($user);
 				if($user['id_role'] == 1){
-					redirect('student/person_cabinet');
+					redirect('client/cabinet');
 				}else if($user['id_role'] == 2){
-					redirect('teacher/person_cabinet');
+					redirect('dispatcher/applications');
 				}else if($user['id_role'] == 3){
+					redirect('main/index');
+				}else if($user['id_role'] == 4){
 					redirect('main/index');
 				}
 			}else{
