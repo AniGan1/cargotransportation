@@ -3,38 +3,35 @@
         <div class="col-1"></div>
         <div class="col-10">
             <h2>Перевозки</h2>
-            <!-- <form action="" method="post" style="width: 400px;" class="ms-auto me-auto">
-                <h3>Сведения об объемах перевозках за водителя : </h3>
+
+            <form action="" method="post" style="width: 400px;" class="ms-auto me-auto">
+                <h4>Сведения об объемах выполненных перевозок по договорам за период с___ по____</h4>
                 <div class="mb-2">
-                    <label for="">ФИО водителя:</label>
-                    <select name="id_driver" class="form-select">
-                        <option value="0">Все</option>
-                        <?php foreach ($drivers as $row): ?>
-                            <option value="<?= $row['id_driver'] ?>"><?= $row['fio'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    <label for="">С:</label>
+                    <input type="date" name="date1" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label for="">По:</label>
+                    <input type="date" name="date2" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary">Поиск</button>
-            </form> -->
-            <h3>Полная статистика по перевозкам водителями</h3>
+            </form>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Ф.И.О. водителя</th>
-                        <th>Выполнено доставок на сумму, руб.</th>
+                        <th>№ договора</th>
+                        <th>Клиент</th>
                         <th>Расстояние, км.</th>
-                        <th>Перевезено</th>
-                        <th>Количество рейсов</th>
+                        <th>Выполнена доставка на сумму, руб</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($apps as $row): ?>
+                    <?php foreach ($traffic as $row): ?>
                         <tr>
+                            <td><?= $row['id_contract'] ?></td>
                             <td><?= $row['fio'] ?></td>
+                            <td><?= $row['distance'] ?></td>
                             <td><?= $row['total_sum'] ?></td>
-                            <td><?= $row['total_distance'] ?></td>
-                            <td><?= $row['total_transported'] ?></td>
-                            <td><?= $row['total_trips'] ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

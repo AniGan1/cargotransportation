@@ -77,6 +77,14 @@ class Buchgalter extends CI_Controller
     public function traffic()
     {
         $id_role = $this->session->userdata('id_role');
+        $this->load->model('drivers');
+        $data['traffic'] = $this->drivers->traffic();
+        if (!empty($_POST)) {
+            $date1 = $_POST['date1'];
+            $date2 = $_POST['date2'];
+            $data['traffic'] = $this->drivers->trafficFilter($date1, $date2);
+        }
+
         if (!empty($id_role) &&  $id_role == 3) {
             $this->load->view('buchgalter/navbar');
         } else {
@@ -84,10 +92,9 @@ class Buchgalter extends CI_Controller
         }
         $this->load->view('temp/head');
 
-        $this->load->view('buchgalter/traffic');
+        $this->load->view('buchgalter/traffic', $data);
         $this->load->view('temp/footer');
     }
-
 
     // ЗАРПЛАТА
     public function salary()
